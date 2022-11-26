@@ -19,13 +19,19 @@ module.exports = (app) => {
     res.json(data);
   });
 
-  // Get one
+  // Get one by id
   router.get('/:id(\\d+)', auth.authenticate, async (req, res) => {
-    const data = await posts.getOne(req.params.id);
+    const data = await posts.getOneById(req.params.id);
     res.json(data);
   });
 
-  // Get summary
+  // Get by author
+  router.get('/:author', auth.authenticate, async (req, res) => {
+    const data = await posts.getByAuthor(`%${req.params.author}%`);
+    res.json(data);
+  });
+
+  // Get post summaries
   router.get('/post-summaries', auth.authenticate, async (req, res) => {
     const data = await posts.getPostSummaries(req.params.id);
     res.json(data);

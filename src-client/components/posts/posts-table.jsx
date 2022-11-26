@@ -49,7 +49,13 @@ class PostTable extends React.Component {
     console.log(filter);
     API.get(`/api/posts/${filter}`)
       .then((res) => {
-        if (res.data) this.setState({ posts: [res.data] });
+        if (Array.isArray(res.data)) {
+          this.setState({ posts: res.data });
+        } else if (res.data) {
+          this.setState({ posts: [res.data] });
+        } else {
+          this.setState({ posts: [] });
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -103,7 +109,7 @@ class PostTable extends React.Component {
                 Filter
               </span>
             </div>
-            <input type="text" className="form-control" placeholder="ID" aria-label="ID" value={filter} onChange={this.handleChange} />
+            <input type="text" className="form-control" placeholder="ID or author" aria-label="ID" value={filter} onChange={this.handleChange} />
           </div>
 
           <table className="table table-hover table-responsive-sm">

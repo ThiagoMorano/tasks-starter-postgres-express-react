@@ -14,12 +14,19 @@ module.exports = (app) => {
   module.get = async () => db.query('select p.*, u.email as author from posts p left join users u ON p.user_id=u.id');
 
   // Get one
-  module.getOne = async (id) => db.query(
+  module.getOneById = async (id) => db.query(
     'select p.*, u.email as author from posts p left join users u ON p.user_id=u.id where p.id=$1',
     [id],
     { single: true }
   );
 
+  // Get by author
+  module.getByAuthor = async (value) => db.query(
+    'select p.*, u.email as author from posts p left join users u ON p.user_id=u.id where u.email like $1',
+    [value]
+  );
+
+  // Get post summaries
   module.getPostSummaries = async () => db.query(
     'select p.title, count(p.title) as PostsWithSameTitle from posts p group by p.title'
   );
