@@ -20,6 +20,10 @@ module.exports = (app) => {
     { single: true }
   );
 
+  module.getPostSummaries = async () => db.query(
+    'select p.title, count(p.title) as PostsWithSameTitle from posts p group by p.title'
+  );
+
   // Update
   module.update = async (id, row) => {
     if (!Number(id)) throw new Error('No id given');
