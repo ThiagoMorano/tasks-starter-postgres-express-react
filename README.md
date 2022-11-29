@@ -174,7 +174,7 @@ This endpoint deletes an individual Post by ID. The ID is provided as a URI para
 
 ### `GET /post-summaries/`: Get a summary of all posts
 This endpoint returns a list with names of all Posts and how often they have been used. No input data is required.
-The output is provided in an array with each object having the structure described below:
+The output is provided in an array with each object having the structure described below and ordered by title:
 ```
 let summary = {
     title: String,
