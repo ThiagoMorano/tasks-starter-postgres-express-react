@@ -155,8 +155,39 @@ let response = {
 This endpoint returns an individual Post by ID. The ID is provided as a URI parameter.
 The output is the same as from `POST /api/posts`
 
+### `GET /api/posts/search/:id`: Get all Posts with ID
+This endpoint returns all Posts which ID include the given value. The ID is provided as a URI parameter.
+The output is provided in a similar fashion as from `GET /api/posts`
+
+### `GET /api/posts/search/:email`: Get all Posts 
+This endpoint returns all Posts whose author's email include the given value. The email is provided as a URI parameter.
+The output is provided in a similar fashion as from `GET /api/posts`
+
 ### `PUT /api/posts/:id`: Update a Post by ID
 This endpoint updates an existing Post by ID. The input/output formats are the same as in `POST /api/posts`
 
 ### `DELETE /api/posts/:id`: Delete a Post by ID
 This endpoint deletes an individual Post by ID. The ID is provided as a URI parameter.
+
+
+## Post Summaries Endpoint (/post-summaries/*)
+
+### `GET /post-summaries/`: Get a summary of all posts
+This endpoint returns a list with names of all Posts and how often they have been used. No input data is required.
+The output is provided in an array with each object having the structure described below:
+```
+let summary = {
+    title: String,
+    number_of_posts: Number
+}
+
+let response = {
+    statusCode: 200,
+    body: [
+            Summary1,
+            Summary2,
+            ...
+            SummaryN
+        ]
+    }
+```
