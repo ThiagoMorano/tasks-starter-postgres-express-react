@@ -25,20 +25,15 @@ module.exports = (app) => {
     res.json(data);
   });
 
-  // Get matching id or author
-  router.get('/search/:value', auth.authenticate, async (req, res) => {
-    let data;
-    if (Number.isSafeInteger(Number.parseInt(req.params.value, 10))) {
-      data = await posts.searchById(`%${req.params.value}%`);
-    } else {
-      data = await posts.searchByAuthor(`%${req.params.value}%`);
-    }
+  // Get matching id
+  router.get('/search/:id(\\d+)', auth.authenticate, async (req, res) => {
+    const data = await posts.searchById(`%${req.params.id}%`);
     res.json(data);
   });
 
-  // Get post summaries
-  router.get('/post-summaries', auth.authenticate, async (req, res) => {
-    const data = await posts.getPostSummaries(req.params.id);
+  // Get matching author
+  router.get('/search/:author', auth.authenticate, async (req, res) => {
+    const data = await posts.searchByAuthor(`%${req.params.author}%`);
     res.json(data);
   });
 
