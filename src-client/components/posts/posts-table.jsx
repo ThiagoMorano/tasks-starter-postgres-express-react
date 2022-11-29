@@ -10,7 +10,7 @@ class PostTable extends React.Component {
     this.handleEditPost = this.handleEditPost.bind(this);
     this.handleRemovePost = this.handleRemovePost.bind(this);
     this.fetchPosts = this.fetchPosts.bind(this);
-    this.getByID = this.getByID.bind(this);
+    this.getByIdOrAuthor = this.getByIdOrAuthor.bind(this);
     this.handleChange = this.handleChange.bind(this);
     if (process.env.NODE_ENV === 'test') return;
     // Continue initialization for non-test environments
@@ -39,23 +39,17 @@ class PostTable extends React.Component {
     const vm = this;
     const targetValue = event.target.value;
     this.setState({ filter: event.target.value }, () => {
-      if (targetValue) vm.getByID();
+      if (targetValue) vm.getByIdOrAuthor();
       else vm.fetchPosts();
     });
   }
 
-  getByID() {
+  getByIdOrAuthor() {
     const { filter } = this.state;
     console.log(filter);
-    API.get(`/api/posts/${filter}`)
+    API.get(`/api/posts/search/${filter}`)
       .then((res) => {
-        if (Array.isArray(res.data)) {
-          this.setState({ posts: res.data });
-        } else if (res.data) {
-          this.setState({ posts: [res.data] });
-        } else {
-          this.setState({ posts: [] });
-        }
+        if (res.data) this.setState({ posts: res.data });
       })
       .catch((error) => {
         console.log(error);

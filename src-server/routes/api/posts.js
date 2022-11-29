@@ -21,13 +21,18 @@ module.exports = (app) => {
 
   // Get one by id
   router.get('/:id(\\d+)', auth.authenticate, async (req, res) => {
-    const data = await posts.getOneById(req.params.id);
+    const data = await posts.getOne(req.params.id);
     res.json(data);
   });
 
-  // Get by author
-  router.get('/:author', auth.authenticate, async (req, res) => {
-    const data = await posts.getByAuthor(`%${req.params.author}%`);
+  // Get matching id or author
+  router.get('/search/:value', auth.authenticate, async (req, res) => {
+    let data;
+    if (Number.isSafeInteger(Number.parseInt(req.params.value, 10))) {
+      data = await posts.searchById(`%${req.params.value}%`);
+    } else {
+      data = await posts.searchByAuthor(`%${req.params.value}%`);
+    }
     res.json(data);
   });
 

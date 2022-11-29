@@ -13,17 +13,23 @@ module.exports = (app) => {
   // Get all
   module.get = async () => db.query('select p.*, u.email as author from posts p left join users u ON p.user_id=u.id');
 
-  // Get one
-  module.getOneById = async (id) => db.query(
+  // Get one by id
+  module.getOne = async (id) => db.query(
     'select p.*, u.email as author from posts p left join users u ON p.user_id=u.id where p.id=$1',
     [id],
     { single: true }
   );
 
-  // Get by author
-  module.getByAuthor = async (value) => db.query(
+  // Search by id
+  module.searchById = async (id) => db.query(
+    'select p.*, u.email as author from posts p left join users u ON p.user_id=u.id where p.id::text like $1',
+    [id]
+  );
+
+  // Search by author
+  module.searchByAuthor = async (email) => db.query(
     'select p.*, u.email as author from posts p left join users u ON p.user_id=u.id where u.email like $1',
-    [value]
+    [email]
   );
 
   // Get post summaries
